@@ -20,3 +20,5 @@ Launch the batch file once all settings are specified and you will be promted to
 See also: https://github.com/cracklingice/Chia-Plot-Copy
 
 XCH: xch1aaryeda5ayqw56ue7zluavhj5dryda4pqzv0s9lnyandw4u0chxs6w74p9
+DOGE: DD9nxzaaidMw4tQpZEvTNGCQ3NDdhpXYJJ
+RVN: RHTVCcDpPvVawqgxPqxMEVUwBszR1AEMmX
