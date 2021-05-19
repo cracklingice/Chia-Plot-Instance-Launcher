@@ -18,20 +18,24 @@ set threads=2
 rem
 rem ### Temp directory 1 (no spaces and make sure to include \ at the end EX T:\)
 rem
-set temp1=T:\
+set temp1=
 rem
 rem ### Final directory for plot output (no spaces and make sure to include \ at the end EX T:\Chia_Plots\)
 rem
-set destination=T:\Chia_Plots\
+set destination=
 rem
 rem
 rem
 rem
 rem ### Optional advanced Settings ###
 rem
-rem ### If you are launching multiple copies of this this for multiple directories, set this to 2 for the second, 3 for the third, ect.
+rem ### If you are launching multiple copies of this for multiple directories, provide a name EX: NVME1
 rem
 set duplicate=
+rem
+rem ### Delay start of first plot
+rem
+set delay=
 rem
 rem ### Log to file (will no longer log to screen) stored in your user directory %userprofile%\.chia\mainnet\plotter\ (log=yes to enable)
 rem 
@@ -67,6 +71,8 @@ set /p loopcount="Generate how many parallel plotting instances: "
 set /p startdelay="Delay in seconds between plot instance spawning: "
 set /p perinstance="How many plots to queue per parallel plotting instance: "
 set /a var=1
+if defined delay for /f "delims=" %%G IN ('powershell "(get-date %time%).AddSeconds(%delay%).ToString('HH:mm:ss')"') do set offsettime=%%G
+if defined delay echo Delayed start for %delay% seconds.  Starting at %offsettime%. & timeout /t %delay% /nobreak > nul
 rem Start launch loop
 :loop
 rem Assemble create string
@@ -74,20 +80,20 @@ set assembled=-k %plotsize% -b %ram% -r %threads% -t %temp1%%var% -d %destinatio
 if defined temp2 set assembled=%assembled% -2 %temp2%
 if defined farmkey if defined poolkey set assembled=%assembled% -f %farmkey% -p %poolkey%
 rem Check for and skip running instances
-FOR /F %%t IN ('tasklist /NH /FI "WINDOWTITLE eq %duplicate%Plot%var%*"') DO IF %%t == cmd.exe echo %duplicate%Plot%var% already running. Checking next plot. & goto SKIP
+FOR /F %%t IN ('tasklist /NH /FI "WINDOWTITLE eq Plot%var%_%duplicate%*"') DO IF %%t == cmd.exe echo Plot%var%_%duplicate% already running. Checking next plot. & goto SKIP
 for /f "delims=" %%G IN ('powershell "(get-date %time%).AddSeconds(%startdelay%).ToString('HH:mm:ss')"') do set endtime=%%G
 rem Plot not running: initiate delay if looped then start plot otherwise start first plot
-if %var% equ 1 echo Started %duplicate%Plot%var% & goto PLOT
-echo Starting %duplicate%Plot%var% at %endtime%.
+if %var% equ 1 echo Started Plot%var%_%duplicate% & goto PLOT
+echo Starting Plot%var%_%duplicate% at %endtime%.
 timeout /t %startdelay% /nobreak > nul
 :PLOT
 if not exist %temp1%\%var% mkdir %temp1%\%var%
 if %log% equ yes set hh=%time:~0,2%
-if %log% equ yes set logfile=%userprofile%\.chia\mainnet\plotter\plotter_log_%date:~4,2%_%date:~7,2%_%date:~10,4%-%hh: =0%-%time:~3,2%-%time:~6,2%_%duplicate%Plot%var%.log
-if %log% equ yes start "%duplicate%Plot%var%" cmd /k "chia plots create %assembled% >> %logfile% & find "Time for" %logfile% & find "Total time" %logfile%"
-if %log% neq yes start "%duplicate%Plot%var%" cmd /k chia plots create %assembled%
+if %log% equ yes set logfile=%userprofile%\.chia\mainnet\plotter\plotter_log_%date:~4,2%_%date:~7,2%_%date:~10,4%-%hh: =0%-%time:~3,2%-%time:~6,2%_Plot%var%_%duplicate%.log
+if %log% equ yes start "Plot%var%_%duplicate%" cmd /k "chia plots create %assembled% >> %logfile% & find "Time for" %logfile% & find "Total time" %logfile%"
+if %log% neq yes start "Plot%var%_%duplicate%" cmd /k chia plots create %assembled%
 rem Plot running: increment variable, decrease loop variable, check if requested instances have launched and loop or finish
-if %var% gtr 1 echo Started %duplicate%Plot%var%
+if %var% gtr 1 echo Started Plot%var%_%duplicate%
 :SKIP
 set /a var=%var%+1
 set /a loopcount=%loopcount%-1
