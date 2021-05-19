@@ -29,6 +29,9 @@ rem
 rem
 rem ### Optional advanced Settings ###
 rem
+rem ### Use plotcopy (must save and configure plotcopy in the output directory to copy plots to the final drive)
+set plotcopy=
+rem
 rem ### If you are launching multiple copies of this for multiple directories, provide a name EX: NVME1
 rem
 set duplicate=
@@ -59,6 +62,7 @@ rem ###   Begin program   ###
 rem ###   no need to edit past here   ###  
 echo %date% %time:~0,-3% Started Plot Generator
 echo.
+if plotcopy equ yes echo %date% %time:~0,-3% Started Plot Copy & echo. & start %destination%plotcopy.bat
 if not defined farmkey if defined poolkey echo Both pool and farm keys are required.  Please check Optional Settings. & goto END
 if not defined poolkey if defined farmkey echo Both pool and farm keys are required.  Please check Optional Settings. & goto END
 if not defined plotsize echo Missing settings.  Please ensure all settings are configured. & goto END
