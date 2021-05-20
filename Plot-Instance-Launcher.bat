@@ -18,11 +18,11 @@ set threads=2
 rem
 rem ### Temp directory 1 (no spaces and make sure to include \ at the end EX T:\)
 rem
-set temp1=
+set temp1=T:\
 rem
 rem ### Final directory for plot output (no spaces and make sure to include \ at the end EX T:\Chia_Plots\)
 rem
-set destination=
+set destination=H:\
 rem
 rem
 rem
@@ -30,11 +30,12 @@ rem
 rem ### Optional advanced Settings ###
 rem
 rem ### Use plotcopy (must save and configure plotcopy in the output directory to copy plots to the final drive)
-set plotcopy=
+rem
+set plotcopy=yes
 rem
 rem ### If you are launching multiple copies of this for multiple directories, provide a name EX: NVME1
 rem
-set duplicate=
+set duplicate=NVME1
 rem
 rem ### Delay start of first plot
 rem
@@ -42,27 +43,26 @@ set delay=
 rem
 rem ### Log to file (will no longer log to screen) stored in your user directory %userprofile%\.chia\mainnet\plotter\ (log=yes to enable)
 rem 
-set log=
+set log=yes
 rem
 rem ### Temp directory 2 (make sure to include \ at the end)
 rem
-set temp2=
+set temp2=H:\
 rem
 rem ### Farmer Public Key (Utilise this when you want to create plots on other machines for which you do not want to give full chia account access. 
 rem ### To find your Chia Farmer Public Key use the following command *on your main wallet/farmer*: chia keys show)
 rem
-set farmkey=
+set farmkey=b89abb9d82640d07fcee9f022889008a02242fafc36b556d5438256886c94a180f59dc219c3c25f39b232c7e58d95bf1
 rem
 rem ### Pool Public Key (Utilise this when you want to create plots on other machines for which you do not want to give full chia account access. 
 rem ### To find your Chia Pool Public Key use the following command *on your main wallet/farmer*: chia keys show)
 rem
-set poolkey=
+set poolkey=85b31cd867189efa1fba8ce05c70774e5e333234fc4dac5835eb293cf2a76da09b74bd25927bb59b3ca4a0ff0ad0b69f
 rem
 rem ###   Begin program   ###
 rem ###   no need to edit past here   ###  
 echo %date% %time:~0,-3% Started Plot Generator
 echo.
-if plotcopy equ yes echo %date% %time:~0,-3% Started Plot Copy & echo. & start %destination%plotcopy.bat
 if not defined farmkey if defined poolkey echo Both pool and farm keys are required.  Please check Optional Settings. & goto END
 if not defined poolkey if defined farmkey echo Both pool and farm keys are required.  Please check Optional Settings. & goto END
 if not defined plotsize echo Missing settings.  Please ensure all settings are configured. & goto END
@@ -75,6 +75,7 @@ set /p loopcount="Generate how many parallel plotting instances: "
 set /p startdelay="Delay in seconds between plot instance spawning: "
 set /p perinstance="How many plots to queue per parallel plotting instance: "
 set /a var=1
+if %plotcopy% equ yes echo %date% %time:~0,-3% Started Plot Copy & echo. & start %destination%plotcopy.bat
 if defined delay for /f "delims=" %%G IN ('powershell "(get-date %time%).AddSeconds(%delay%).ToString('HH:mm:ss')"') do set offsettime=%%G
 if defined delay echo Delayed start for %delay% seconds.  Starting at %offsettime%. & timeout /t %delay% /nobreak > nul
 rem Start launch loop
@@ -91,6 +92,7 @@ if %var% equ 1 echo Started Plot%var%_%duplicate% & goto PLOT
 echo Starting Plot%var%_%duplicate% at %endtime%.
 timeout /t %startdelay% /nobreak > nul
 :PLOT
+goto end
 if not exist %temp1%\%var% mkdir %temp1%\%var%
 if %log% equ yes set hh=%time:~0,2%
 if %log% equ yes set logfile=%userprofile%\.chia\mainnet\plotter\plotter_log_%date:~4,2%_%date:~7,2%_%date:~10,4%-%hh: =0%-%time:~3,2%-%time:~6,2%_Plot%var%_%duplicate%.log
