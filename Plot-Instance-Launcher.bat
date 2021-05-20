@@ -92,7 +92,6 @@ if %var% equ 1 echo Started Plot%var%_%duplicate% & goto PLOT
 echo Starting Plot%var%_%duplicate% at %endtime%.
 timeout /t %startdelay% /nobreak > nul
 :PLOT
-goto end
 if not exist %temp1%\%var% mkdir %temp1%\%var%
 if %log% equ yes set hh=%time:~0,2%
 if %log% equ yes set logfile=%userprofile%\.chia\mainnet\plotter\plotter_log_%date:~4,2%_%date:~7,2%_%date:~10,4%-%hh: =0%-%time:~3,2%-%time:~6,2%_Plot%var%_%duplicate%.log
