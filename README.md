@@ -7,7 +7,7 @@ Launches multiple Chia plotting instances with user specified options
 
 To use Chia Plot Instance Launcher:
 
-Download Plot-Instance-Launcher.bat.  Move a copy to your chia daemon folder.  To find the folder, right click your Chia wallet shortcut and click "Open file location".  Then open the following folders app-1.1.3\resources\app.asar.unpacked\daemon (1.1.3 will change depending on wallet version).  Right click the file, drag to the desktop and "Create shortcut here" for easy launching.  You may need to move a new copy of Plot Instance Launcher to the daemon folder whenever you update the wallet and will need to update the shortcut every time you update the wallet.
+Download Plot-Instance-Launcher.bat.  Move a copy to your chia daemon folder.  To find the folder, paste the following in your explorer.  %localappdata%\chia-blockchain\ Then open the following folders app-1.1.5\resources\app.asar.unpacked\daemon (1.1.5 will change as newer versions of the wallet are released)  Right click the file, drag to the desktop and "Create shortcut here" for easy launching.  You may need to move a new copy of Plot Instance Launcher to the daemon folder whenever you update the wallet and will need to update the shortcut every time you update the wallet.
 
 Right click the file and select edit.  Some default settings have been provided, but you will need to modify at least some settings in the file.  At the minimum you need to set up the temporary directory and destination directory.  Take note that spaces in the path are not supported and must end in \.
 
