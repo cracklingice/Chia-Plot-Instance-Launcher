@@ -18,11 +18,11 @@ set threads=2
 rem
 rem ### Temp directory 1 (no spaces and make sure to include \ at the end EX T:\)
 rem
-set temp1=T:\
+set temp1=
 rem
 rem ### Final directory for plot output (no spaces and make sure to include \ at the end EX T:\Chia_Plots\)
 rem
-set destination=H:\
+set destination=
 rem
 rem
 rem
@@ -31,11 +31,11 @@ rem ### Optional advanced Settings ###
 rem
 rem ### Use plotcopy (must save and configure plotcopy in the output directory to copy plots to the final drive)
 rem
-set plotcopy=yes
+set plotcopy=
 rem
 rem ### If you are launching multiple copies of this for multiple directories, provide a name EX: NVME1
 rem
-set duplicate=NVME1
+set duplicate=
 rem
 rem ### Delay start of first plot
 rem
@@ -43,21 +43,21 @@ set delay=
 rem
 rem ### Log to file (will no longer log to screen) stored in your user directory %userprofile%\.chia\mainnet\plotter\ (log=yes to enable)
 rem 
-set log=yes
+set log=
 rem
 rem ### Temp directory 2 (make sure to include \ at the end)
 rem
-set temp2=H:\
+set temp2=
 rem
 rem ### Farmer Public Key (Utilise this when you want to create plots on other machines for which you do not want to give full chia account access. 
 rem ### To find your Chia Farmer Public Key use the following command *on your main wallet/farmer*: chia keys show)
 rem
-set farmkey=b89abb9d82640d07fcee9f022889008a02242fafc36b556d5438256886c94a180f59dc219c3c25f39b232c7e58d95bf1
+set farmkey=
 rem
 rem ### Pool Public Key (Utilise this when you want to create plots on other machines for which you do not want to give full chia account access. 
 rem ### To find your Chia Pool Public Key use the following command *on your main wallet/farmer*: chia keys show)
 rem
-set poolkey=85b31cd867189efa1fba8ce05c70774e5e333234fc4dac5835eb293cf2a76da09b74bd25927bb59b3ca4a0ff0ad0b69f
+set poolkey=
 rem
 rem ###   Begin program   ###
 rem ###   no need to edit past here   ###  
