@@ -75,7 +75,7 @@ set /p loopcount="Generate how many parallel plotting instances: "
 set /p startdelay="Delay in seconds between plot instance spawning: "
 set /p perinstance="How many plots to queue per parallel plotting instance: "
 set /a var=1
-if %plotcopy% equ yes echo %date% %time:~0,-3% Started Plot Copy & echo. & start %destination%plotcopy.bat
+if %plotcopy% equ yes echo %date% %time:~0,-3% Started Plot Copy & echo. & start cmd.exe /k "%destination:~0,-1% & %destination%plotcopy.bat"
 if defined delay for /f "delims=" %%G IN ('powershell "(get-date %time%).AddSeconds(%delay%).ToString('HH:mm:ss')"') do set offsettime=%%G
 if defined delay echo Delayed start for %delay% seconds.  Starting at %offsettime%. & timeout /t %delay% /nobreak > nul
 rem Start launch loop
